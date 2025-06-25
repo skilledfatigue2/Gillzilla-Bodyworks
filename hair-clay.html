@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hair Clay - Gillzilla Bodyworks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+    body { background-color: #f4f4f4; color: #333; padding: 20px; }
+    header {
+      padding: 20px;
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+    }
+    header h1 { margin: 0; font-size: 24px; }
+    .product-detail {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .product-detail img {
+      width: 100%;
+      max-width: 300px; /* Limit the image width */
+      display: block;
+      margin: 0 auto 20px;
+    }
+    .product-detail h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #4CAF50;
+      text-align: center;
+    }
+    .product-detail p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .combo-deals {
+      margin-top: 20px;
+    }
+    .combo-deals h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #4CAF50;
+    }
+    .combo-deals ul {
+      list-style: none;
+      padding: 0;
+    }
+    .combo-deals ul li {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    .add-to-cart {
+      display: block;
+      width: 100%;
+      max-width: 200px;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .add-to-cart:hover {
+      background-color: #45a049;
+    }
+
+    /* Cart Sidebar Styles */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 300px;
+      height: 100%;
+      background-color: #111;
+      padding: 30px 20px 80px;
+      overflow-y: auto;
+      transition: right 0.3s ease-in-out;
+      z-index: 1000;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .sidebar.active {
+      right: 0;
+    }
+    .sidebar h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      color: #fff;
+    }
+    .cart-item {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+    }
+    .cart-item button {
+      background-color: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .cart-item button:hover {
+      background-color: #4CAF50;
+      color: #fff;
+    }
+    .checkout-button {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .checkout-button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hair Clay</h1>
+  </header>
+  <div class="product-detail">
+    <img src="images/hair-clay.png" alt="Hair Clay">
+    <h2>Hair Clay - $25</h2>
+    <p>Matte finish and strong hold for defined looks. Ideal for structured and long-lasting styles.</p>
+    <div class="combo-deals">
+      <h3>Combo Deals</h3>
+      <ul>
+        <li>Hair Clay + Sea Salt Spray - $40</li>
+        <li>Hair Clay + Texture Powder - $40</li>
+        <li>Hair Clay + Conditioner - $45</li>
+      </ul>
+    </div>
+    <button class="add-to-cart" onclick="addToCart('Hair Clay', 25)">Add to Cart</button>
+  </div>
+
+  <!-- Cart Sidebar -->
+  <div id="cartSidebar" class="sidebar">
+    <button class="close-cart" onclick="closeCart()">X</button>
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <p id="cart-total">Total: $0</p>
+    <button class="checkout-button" onclick="redirectToCheckout()">Proceed to Checkout</button>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function toggleCart() {
+      const cartSidebar = document.getElementById('cartSidebar');
+      cartSidebar.classList.toggle('active');
+      displayCart();
+    }
+
+    function closeCart() {
+      const cartSidebar = document.getElementById('cartSidebar');
+      cartSidebar.classList.remove('active');
+    }
+
+    function addToCart(productName, price) {
+      const productIndex = cart.findIndex(item => item.productName === productName);
+      if (productIndex !== -1) {
+        cart[productIndex].quantity++;
+      } else {
+        cart.push({ productName, price, quantity: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      alert(`${productName} has been added to your cart!`);
+    }
+
+    function updateCartCount() {
+      const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+      document.getElementById('cart-count').innerText = totalItems;
+    }
+
+    function displayCart() {
+      const cartItemsContainer = document.getElementById('cart-items');
+      cartItemsContainer.innerHTML = '';
+      let totalPrice = 0;
+
+      cart.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('cart-item');
+        itemDiv.innerHTML = `
+          <span>${item.productName}</span>
+          <span>${item.quantity} x $${item.price}</span>
+        `;
+        cartItemsContainer.appendChild(itemDiv);
+        totalPrice += item.price * item.quantity;
+      });
+
+      document.getElementById('cart-total').innerText = `Total: $${totalPrice}`;
+    }
+
+    function redirectToCheckout() {
+      window.location.href = "checkout.html";
+    }
+
+    window.onload = function () {
+      updateCartCount();
+    };
+  </script>
+</body>
+</html>

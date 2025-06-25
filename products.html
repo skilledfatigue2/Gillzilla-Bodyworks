@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Gillzilla Bodyworks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+    body { background-color: #f4f4f4; color: #333; }
+    header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111;
+      color: #fff;
+    }
+    header h2 {
+      margin: 0;
+      cursor: pointer;
+    }
+    header nav a {
+      margin: 0 10px;
+      color: #ddd;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    header nav a:hover { color: transparent; }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      background: linear-gradient(to bottom, #f4f4f4, #e0e0e0);
+    }
+    .product-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+    .product-card img {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: 15px;
+    }
+    .product-card p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .product-card button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50; /* Green background */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .product-card button:hover { background-color: #45a049; /* Slightly darker green on hover */ }
+
+    .cart-count {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: red;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 50%;
+      font-size: 14px;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 300px;
+      height: 100%;
+      background-color: #111;
+      padding: 30px 20px 80px;
+      overflow-y: auto;
+      transition: right 0.3s ease-in-out;
+      z-index: 1000;
+      color: #fff; /* Ensure text color is white */
+      font-family: 'Montserrat', sans-serif; /* Use the same font as the homepage */
+    }
+    .sidebar.active { right: 0; }
+    .sidebar h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      color: #fff;
+    }
+    .cart-item {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff; /* Ensure text color is white */
+    }
+    .cart-item button {
+      background-color: transparent; /* Remove green background */
+      color: #fff; /* White text for buttons */
+      border: 1px solid #fff; /* Add a subtle border */
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .cart-item button:hover { background-color: transparent; /* Add green background on hover */ color: #fff; }
+    .quantity-controls button {
+      background-color: transparent; /* Remove green background */
+      color: #fff; /* White text for buttons */
+      border: none; /* Remove border */
+      font-size: 16px; /* Increase font size for better visibility */
+      cursor: pointer;
+      margin: 0 5px;
+      transition: color 0.3s ease;
+    }
+    .quantity-controls button:hover { color: #4CAF50; /* Add green color on hover */ }
+    .checkout-button {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .checkout-button:hover { background-color: #45a049; }
+
+    /* General Button Styles */
+    button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50; /* Green background */
+      color: white; /* White text */
+      border: none; /* Remove borders */
+      border-radius: 5px; /* Rounded corners */
+      font-size: 16px; /* Font size */
+      font-weight: 500; /* Slightly bold text */
+      cursor: pointer; /* Pointer cursor */
+      text-align: center;
+      transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+    }
+
+    button:hover {
+      background-color: #45a049; /* Slightly darker green on hover */
+      transform: scale(1.05); /* Slight zoom effect */
+    }
+
+    button:active {
+      transform: scale(0.95); /* Slight shrink effect on click */
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2 onclick="window.location.href='index.html'">Gillzilla Bodyworks</h2>
+    <nav>
+      <a href="javascript:void(0)" onclick="toggleCart()">Cart <span id="cart-count" class="cart-count">0</span></a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Elevate Your Crown</h1>
+    <p>Premium hair care products crafted to nourish, protect, and empower your natural beauty.</p>
+  </section>
+
+  <section class="product-grid">
+    <div class="product-card">
+      <img src="images/sea-salt-spray.png" alt="Sea Salt Spray">
+      <p>Sea Salt Spray - Adds volume and beachy texture with a light hold.</p>
+      <p class="product-price">$20</p>
+      <button onclick="window.location.href='sea-salt-spray.html'">Shop Now</button>
+    </div>
+    <div class="product-card">
+      <img src="images/texture-powder.png" alt="Texture Powder">
+      <p>Texture Powder - Boosts volume and grip for easy styling.</p>
+      <p class="product-price">$20</p>
+      <button onclick="window.location.href='texture-powder.html'">Shop Now</button>
+    </div>
+    <div class="product-card">
+      <img src="images/tonic-spray.png" alt="Texture Tonic Spray">
+      <p>Texture Tonic Spray - Natural finish and flexible hold.</p>
+      <p class="product-price">$15</p>
+      <button onclick="window.location.href='tonic-spray.html'">Shop Now</button>
+    </div>
+    <div class="product-card">
+      <img src="images/hair-clay.png" alt="Hair Clay">
+      <p>Hair Clay - Matte finish and strong hold for defined looks.</p>
+      <p class="product-price">$25</p>
+      <button onclick="window.location.href='hair-clay.html'">Shop Now</button>
+    </div>
+    <div class="product-card">
+      <img src="images/shampoo.png" alt="Shampoo">
+      <p>Shampoo - Cleanses and nourishes your hair with natural ingredients.</p>
+      <p class="product-price">$25</p>
+      <button onclick="window.location.href='shampoo.html'">Shop Now</button>
+    </div>
+    <div class="product-card">
+      <img src="images/conditioner.png" alt="Conditioner">
+      <p>Conditioner - Hydrates and strengthens your hair for a silky finish.</p>
+      <p class="product-price">$25</p>
+      <button onclick="window.location.href='conditioner.html'">Shop Now</button>
+    </div>
+    <div class="product-card">
+      <img src="images/facial-moisturizer.png" alt="Facial Moisturizer">
+      <p>Facial Moisturizer - Keeps your skin hydrated and glowing.</p>
+      <p class="product-price">$20</p>
+      <button onclick="window.location.href='facial-moisturizer.html'">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- Cart Sidebar -->
+  <div id="cartSidebar" class="sidebar">
+    <button class="close-cart" onclick="closeCart()">X</button>
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <p id="cart-total">Total: $0</p>
+    <button class="checkout-button" onclick="redirectToCheckout()">Proceed to Checkout</button>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function toggleCart() {
+      const cartSidebar = document.getElementById('cartSidebar');
+      cartSidebar.classList.toggle('active');
+      displayCart();
+    }
+
+    function closeCart() {
+      const cartSidebar = document.getElementById('cartSidebar');
+      cartSidebar.classList.remove('active');
+    }
+
+    function addToCart(productName, price) {
+      const productIndex = cart.findIndex(item => item.productName === productName);
+      if (productIndex !== -1) {
+        cart[productIndex].quantity++;
+      } else {
+        cart.push({ productName, price, quantity: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+      document.getElementById('cart-count').innerText = totalItems;
+    }
+
+    function displayCart() {
+      const cartItemsContainer = document.getElementById('cart-items');
+      cartItemsContainer.innerHTML = '';
+      let totalPrice = 0;
+
+      cart.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('cart-item');
+        itemDiv.innerHTML = `
+          <span>${item.productName}</span>
+          <div class="quantity-controls">
+            <button onclick="decreaseQuantity(${index})">-</button>
+            <span>${item.quantity}</span>
+            <button onclick="increaseQuantity(${index})">+</button>
+          </div>
+          <span>$${item.price * item.quantity}</span>
+        `;
+        cartItemsContainer.appendChild(itemDiv);
+        totalPrice += item.price * item.quantity;
+      });
+
+      document.getElementById('cart-total').innerText = `Total: $${totalPrice}`;
+    }
+
+    function increaseQuantity(index) {
+      cart[index].quantity++;
+      localStorage.setItem('cart', JSON.stringify(cart));
+      displayCart();
+      updateCartCount();
+    }
+
+    function decreaseQuantity(index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity--;
+      } else {
+        cart.splice(index, 1);
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      displayCart();
+      updateCartCount();
+    }
+
+    window.onload = function () {
+      updateCartCount();
+    };
+
+    function redirectToCheckout() {
+      window.location.href = "checkout.html";
+    }
+  </script>
+</body>
+</html>

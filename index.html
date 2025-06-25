@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gillzilla Bodyworks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* General Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+    body { background-color: #f4f4f4; color: #333; }
+    a { text-decoration: none; color: inherit; }
+    h1, h2, h3 { font-weight: 700; }
+
+    /* Header */
+    header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111;
+      color: #fff;
+    }
+    nav a {
+      margin: 0 10px;
+      color: #ddd;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    nav a:hover { color: #4CAF50; }
+
+    /* Hero Section */
+    .hero {
+      background: url('https://images.pexels.com/photos/457882/pexels-photo-457882.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260') center/cover no-repeat;
+      padding: 100px 20px;
+      text-align: center;
+      color: #fff;
+    }
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+    .hero p {
+      font-size: 20px;
+      max-width: 600px;
+      margin: 0 auto 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+    .hero button {
+      padding: 15px 30px;
+      background-color: #4CAF50; /* Green background */
+      color: white;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .hero button:hover { background-color: #45a049; /* Slightly darker green on hover */ }
+
+    /* Moving Bar */
+    .moving-bar {
+      width: 100%;
+      background: linear-gradient(90deg, #4CAF50, #111);
+      color: #fff;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 10px 0;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .moving-text {
+      display: inline-block;
+      animation: scroll 15s linear infinite; /* Changed duration back to 15s */
+    }
+    .moving-text span {
+      display: inline-block;
+      margin-right: 50px;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* Updated Product Section */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+      background: linear-gradient(to bottom, #f4f4f4, #e0e0e0);
+    }
+    .product-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+    .product-card img {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: 15px;
+    }
+    .product-card p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .product-card button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50; /* Green background */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .product-card button:hover { background-color: #45a049; /* Slightly darker green on hover */ }
+
+    /* Footer */
+    .footer {
+      padding: 20px;
+      text-align: center;
+      background-color: #111;
+      color: #fff;
+      margin-top: 40px;
+    }
+    .footer a {
+      color: #4CAF50;
+      margin: 0 10px;
+      font-weight: 500;
+    }
+
+    .cart-count { position: absolute; top: 10px; right: 10px; background-color: red; color: white; padding: 5px 10px; border-radius: 50%; font-size: 14px; }
+    .sidebar { position: fixed; top: 0; right: -100%; width: 300px; height: 100%; background-color: #111; padding: 30px 20px 80px; overflow-y: auto; transition: right 0.3s ease-in-out; z-index: 1000; }
+    .sidebar.active { right: 0; }
+    .sidebar h2 { margin-bottom: 20px; font-size: 24px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+    .cart-item { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+    .cart-item button { background-color: #5f5f5f; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; }
+    .cart-item button:hover { background-color: darkred; }
+    .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: none; z-index: 900; }
+    .overlay.active { display: block; }
+    .checkout-form { padding: 20px; background-color: #222; border-radius: 10px; margin: 20px auto; width: 80%; max-width: 500px; display: none; }
+    label { display: block; margin-bottom: 10px; font-size: 16px; }
+    input { width: 100%; padding: 10px; margin-bottom: 20px; background-color: #333; border: 1px solid #444; color: #fff; font-size: 16px; }
+    button { padding: 15px 30px; background-color: #5f5f5f; color: white; border: none; font-size: 18px; cursor: pointer; border-radius: 5px; }
+    button:hover { background-color: #000000; }
+    .confirmation-message { display: none; padding: 20px; background-color: #000000; color: white; border-radius: 10px; margin-top: 20px; text-align: center; }
+    .about-sidebar { position: fixed; top: 0; left: -100%; width: 300px; height: 100%; background-color: #111; padding: 30px; overflow-y: auto; transition: left 0.3s ease-in-out; z-index: 1000; }
+    .about-sidebar.active { left: 0; }
+    .contact-sidebar { position: fixed; top: 0; left: -100%; width: 300px; height: 100%; background-color: #111; padding: 30px; overflow-y: auto; transition: left 0.3s ease-in-out; z-index: 1000; }
+    .contact-sidebar.active { left: 0; }
+
+    /* Style for the close cart button */
+    .close-cart {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none; /* Remove green background */
+      border: none; /* Remove border */
+      color: white; /* Set text color to white */
+      font-size: 20px; /* Adjust font size */
+      cursor: pointer;
+      transition: color 0.3s ease; /* Add smooth hover effect */
+    }
+
+    .close-cart:hover {
+      color: #ff4d4d; /* Change color to red on hover */
+    }
+
+    /* Style for the checkout button */
+    .checkout-button {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #5f5f5f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .checkout-button:hover {
+      background-color: #ff0000; /* Slightly darker green on hover */
+    }
+
+    /* Ensure the cart sidebar has enough padding for the bottom button */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 300px;
+      height: 100%;
+      background-color: #111;
+      padding: 30px 20px 80px; /* Add padding at the bottom for the button */
+      overflow-y: auto;
+      transition: right 0.3s ease-in-out;
+      z-index: 1000;
+    }
+
+    /* Ingredients Sidebar */
+    .ingredients-sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 300px;
+      height: 100%;
+      background-color: #111;
+      padding: 30px;
+      overflow-y: auto;
+      transition: left 0.3s ease-in-out;
+      z-index: 1000;
+      color: white;
+    }
+
+    .ingredients-sidebar.active {
+      left: 0;
+    }
+
+    .ingredients-sidebar h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+
+    .ingredients-sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .ingredients-sidebar ul li {
+      margin-bottom: 15px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .ingredients-sidebar button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .ingredients-sidebar button:hover {
+      background-color: #45a049;
+    }
+
+    .moving-bar {
+      width: 100%;
+      background-color: #111;
+      color: #fff;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 10px 0;
+      border-top: 2px solid #4CAF50;
+      border-bottom: 2px solid #4CAF50;
+    }
+
+    .moving-text {
+      display: inline-block;
+      animation: scroll 15s linear infinite;
+    }
+
+    .moving-text span {
+      display: inline-block;
+      margin-right: 50px; /* Space between messages */
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* Sidebar General Styles */
+    .sidebar, .about-sidebar, .contact-sidebar, .ingredients-sidebar {
+      color: #fff; /* Ensure text color is white */
+      font-size: 16px; /* Set a readable font size */
+      line-height: 1.5; /* Improve readability */
+    }
+
+    /* Sidebar Headings */
+    .sidebar h2, .about-sidebar h2, .contact-sidebar h2, .ingredients-sidebar h2 {
+      color: #fff; /* Ensure headings are also white */
+      font-size: 24px; /* Make headings larger */
+      margin-bottom: 20px;
+    }
+
+    /* Sidebar Links and Buttons */
+    .sidebar a, .about-sidebar a, .contact-sidebar a, .ingredients-sidebar a {
+      color: #4CAF50; /* Use a green color for links */
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .sidebar a:hover, .about-sidebar a:hover, .contact-sidebar a:hover, .ingredients-sidebar a:hover {
+      color: #45a049; /* Slightly darker green on hover */
+    }
+
+    .sidebar button, .about-sidebar button, .contact-sidebar button, .ingredients-sidebar button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    .sidebar button:hover, .about-sidebar button:hover, .contact-sidebar button:hover, .ingredients-sidebar button:hover {
+      background-color: #45a049;
+    }
+
+    .product-price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #4CAF50; /* Green color for the price */
+      margin: 10px 0;
+    }
+
+    /* Cart Sidebar Styles */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 300px;
+      height: 100%;
+      background-color: #111;
+      padding: 30px 20px 80px;
+      overflow-y: auto;
+      transition: right 0.3s ease-in-out;
+      z-index: 1000;
+      color: #fff; /* Ensure text color is white */
+      font-family: 'Montserrat', sans-serif; /* Use the same font as the homepage */
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      color: #fff;
+    }
+
+    .cart-item {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff; /* Ensure text color is white */
+    }
+
+    .cart-item button {
+      background-color: transparent; /* Remove green background */
+      color: #fff; /* White text for buttons */
+      border: 1px solid #fff; /* Add a subtle border */
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .cart-item button:hover {
+      background-color: #4CAF50; /* Add green background on hover */
+      color: #fff;
+    }
+
+    .quantity-controls button {
+      background-color: transparent; /* Remove green background */
+      color: #fff; /* White text for buttons */
+      border: none; /* Remove border */
+      font-size: 16px; /* Increase font size for better visibility */
+      cursor: pointer;
+      margin: 0 5px;
+      transition: color 0.3s ease;
+    }
+
+    .quantity-controls button:hover {
+      color: #4CAF50; /* Add green color on hover */
+    }
+
+    .checkout-button {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      padding: 12px;
+      font-size: 16px;
+      background-color: transparent;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .checkout-button:hover {
+      background-color: #45a049;
+    }
+
+    /* General Button Styles */
+    button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #4CAF50; /* Green background */
+      color: white; /* White text */
+      border: none; /* Remove borders */
+      border-radius: 5px; /* Rounded corners */
+      font-size: 16px; /* Font size */
+      font-weight: 500; /* Slightly bold text */
+      cursor: pointer; /* Pointer cursor */
+      text-align: center;
+      transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effect */
+    }
+
+    button:hover {
+      background-color: #45a049; /* Slightly darker green on hover */
+      transform: scale(1.05); /* Slight zoom effect */
+    }
+
+    button:active {
+      transform: scale(0.95); /* Slight shrink effect on click */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+  <header>
+    <h2 onclick="window.location.href='index.html'">Gillzilla Bodyworks</h2>
+    <nav>
+      <a href="javascript:void(0)" onclick="toggleAboutSidebar()" id="about-button">About</a>
+      <a href="javascript:void(0)" onclick="toggleContactSidebar()" id="contact-button">Contact</a>
+      <a href="javascript:void(0)" onclick="toggleIngredientsSidebar()" id="ingredients-button">Ingredients</a>
+      <a href="javascript:void(0)" onclick="toggleCart()">Cart <span id="cart-count" class="cart-count">0</span></a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Elevate Your Crown</h1>
+    <p>Premium hair care products crafted to nourish, protect, and empower your natural beauty.</p>
+  </section>
+
+  <div class="moving-bar">
+    <div class="moving-text">
+      <span>All Natural Products</span>
+      <span>Handcrafted with Care</span>
+      <span>Eco-Friendly Ingredients</span>
+      <span>Perfect for All Hair Types</span>
+      <span>Free Shipping on Orders Over $50</span>
+      <span>Made with Love and Precision</span>
+      <span>Gentle on Your Skin and Hair</span>
+      <span>Trusted by Thousands of Customers</span>
+      <span>Enhance Your Natural Beauty</span>
+      <span>Shop Now for Exclusive Deals</span>
+    </div>
+  </div>
+
+  <section id="products" class="product-grid">
+    <div class="product-card">
+      <img src="images/sea-salt-spray.png" alt="Sea Salt Spray">
+      <p>Sea Salt Spray - Adds volume and beachy texture with a light hold.</p>
+      <p class="product-price">$20</p>
+      <button onclick="window.location.href='sea-salt-spray.html'">Shop Now</button>
+    </div>
+    <div class="product-card">
+      <img src="images/texture-powder.png" alt="Texture Powder">
+      <p>Texture Powder - Boosts volume and grip for easy styling.</p>
+      <p class="product-price">$20</p>
+      <button onclick="window.location.href='texture-powder.html'">Shop Now</button>
+    </div>
+    <div class="product-card">
+      <img src="images/tonic-spray.png" alt="Texture Tonic Spray">
+      <p>Texture Tonic Spray - Natural finish and flexible hold.</p>
+      <p class="product-price">$15</p>
+      <button onclick="window.location.href='tonic-spray.html'">Shop Now</button>
+    </div>
+    <div class="product-card">
+      <img src="images/hair-clay.png" alt="Hair Clay">
+      <p>Hair Clay - Matte finish and strong hold for defined looks.</p>
+      <p class="product-price">$25</p>
+      <button onclick="window.location.href='hair-clay.html'">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- Cart Sidebar -->
+  <div id="cartSidebar" class="sidebar">
+    <button class="close-cart" onclick="closeCart()">X</button>
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <p id="cart-total">Total: $0</p>
+    <button class="checkout-button" onclick="redirectToCheckout()">Proceed to Checkout</button>
+  </div>
+
+  <!-- About Sidebar -->
+  <div id="aboutSidebar" class="about-sidebar">
+    <h2>About Our Products</h2>
+    <p>At Gillzilla Bodyworks, we are committed to providing you with the finest quality hair care products. Our products are made with 100% natural ingredients, ensuring that your hair receives the nutrients it needs without harmful chemicals. Whether you're looking for a texturizing spray or a strong-hold styling clay, our products are designed to help your hair look and feel its best. Each product is crafted with care, combining the power of nature and the science of styling. From the beachy texture spray to the thickening powder, your hair will thank you for the all-natural goodness packed into every bottle.</p>
+    <button onclick="closeAboutSidebar()">Close About</button>
+  </div>
+
+  <!-- Contact Sidebar -->
+  <div id="contactSidebar" class="contact-sidebar">
+    <h2>Contact Us</h2>
+    <p>For support, please email us at:</p>
+    <p><strong>gsgill0213@outlook.com</strong></p>
+    <button onclick="closeContactSidebar()">Close Contact</button>
+  </div>
+
+  <!-- Ingredients Sidebar -->
+  <div id="ingredientsSidebar" class="ingredients-sidebar">
+    <h2>Natural Ingredients</h2>
+    <ul>
+      <li><strong>Distilled Water:</strong> Hydrates and cleanses the hair.</li>
+      <li><strong>Sea Salt:</strong> Adds texture and volume to hair.</li>
+      <li><strong>Coconut Oil:</strong> Moisturizes and strengthens hair strands.</li>
+      <li><strong>Aloe Vera Gel:</strong> Soothes the scalp and promotes hair growth.</li>
+      <li><strong>Essential Oils:</strong> Nourishes hair and provides a pleasant scent.</li>
+      <li><strong>Bentonite Clay:</strong> Detoxifies and clarifies the scalp.</li>
+      <li><strong>Shea Butter:</strong> Deeply moisturizes and protects hair.</li>
+      <li><strong>Beeswax:</strong> Provides hold and seals in moisture.</li>
+      <li><strong>Argan Oil:</strong> Repairs damaged hair and adds shine.</li>
+      <li><strong>Arrowroot Powder:</strong> Absorbs excess oil and adds volume.</li>
+      <li><strong>Kaolin Clay:</strong> Gently cleanses and exfoliates the scalp.</li>
+      <li><strong>Baking Soda:</strong> Removes buildup and balances scalp pH.</li>
+      <li><strong>Witch Hazel:</strong> Reduces scalp irritation and strengthens hair roots.</li>
+    </ul>
+    <button onclick="closeIngredientsSidebar()">Close Ingredients</button>
+  </div>
+
+  <!-- Checkout Form -->
+  <div id="checkoutForm" class="checkout-form">
+    <h3>Billing Information</h3>
+    <form onsubmit="submitOrder(event)">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" required />
+
+      <label for="cardNumber">Card Number</label>
+      <input type="text" id="cardNumber" required />
+
+      <label for="expiration">Expiration Date</label>
+      <input type="text" id="expiration" required />
+
+      <label for="cvv">CVV</label>
+      <input type="text" id="cvv" required />
+
+      <label for="address">Shipping Address</label>
+      <input type="text" id="address" required />
+
+      <button type="submit">Submit Order</button>
+    </form>
+  </div>
+
+  <!-- Order Confirmation Message -->
+  <div id="confirmationMessage" class="confirmation-message">
+    <h2>Thank You!</h2>
+    <p>Your order has been placed. We will send you a confirmation email shortly.</p>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2025 Gillzilla Bodyworks. All rights reserved.</p>
+    <a href="javascript:void(0)" onclick="toggleAboutSidebar()">About Us</a>
+    <a href="javascript:void(0)" onclick="toggleContactSidebar()">Contact</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+  </footer>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Toggle Cart Sidebar
+    function toggleCart() {
+      const cartSidebar = document.getElementById('cartSidebar');
+      cartSidebar.classList.toggle('active');
+      displayCart();
+    }
+
+    // Close Cart Sidebar
+    function closeCart() {
+      const cartSidebar = document.getElementById('cartSidebar');
+      cartSidebar.classList.remove('active');
+      const overlay = document.getElementById('overlay');
+      overlay.classList.remove('active');
+    }
+
+    // Toggle About Sidebar
+    function toggleAboutSidebar() {
+      const aboutSidebar = document.getElementById('aboutSidebar');
+      aboutSidebar.classList.toggle('active');
+      const overlay = document.getElementById('overlay');
+      overlay.classList.add('active');
+    }
+
+    // Close About Sidebar
+    function closeAboutSidebar() {
+      const aboutSidebar = document.getElementById('aboutSidebar');
+      aboutSidebar.classList.remove('active');
+      const overlay = document.getElementById('overlay');
+      overlay.classList.remove('active');
+    }
+
+    // Toggle Contact Sidebar
+    function toggleContactSidebar() {
+      const contactSidebar = document.getElementById('contactSidebar');
+      contactSidebar.classList.toggle('active');
+      const overlay = document.getElementById('overlay');
+      overlay.classList.add('active');
+    }
+
+    // Close Contact Sidebar
+    function closeContactSidebar() {
+      const contactSidebar = document.getElementById('contactSidebar');
+      contactSidebar.classList.remove('active');
+      const overlay = document.getElementById('overlay');
+      overlay.classList.remove('active');
+    }
+
+    // Toggle Ingredients Sidebar
+    function toggleIngredientsSidebar() {
+      const ingredientsSidebar = document.getElementById('ingredientsSidebar');
+      ingredientsSidebar.classList.toggle('active');
+      const overlay = document.getElementById('overlay');
+      overlay.classList.add('active');
+    }
+
+    // Close Ingredients Sidebar
+    function closeIngredientsSidebar() {
+      const ingredientsSidebar = document.getElementById('ingredientsSidebar');
+      ingredientsSidebar.classList.remove('active');
+      const overlay = document.getElementById('overlay');
+      overlay.classList.remove('active');
+    }
+
+    // Add to Cart
+    function addToCart(productName, price) {
+      const productIndex = cart.findIndex(item => item.productName === productName);
+      if (productIndex !== -1) {
+        cart[productIndex].quantity++;
+      } else {
+        cart.push({ productName, price, quantity: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    // Update Cart Count
+    function updateCartCount() {
+      const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+      document.getElementById('cart-count').innerText = totalItems;
+    }
+
+    // Display Cart with Quantity Adjustment
+    function displayCart() {
+      const cartItemsContainer = document.getElementById('cart-items');
+      cartItemsContainer.innerHTML = '';
+      let totalPrice = 0;
+
+      cart.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.classList.add('cart-item');
+        itemDiv.innerHTML = `
+          <span>${item.productName}</span>
+          <div class="quantity-controls">
+            <button onclick="decreaseQuantity(${index})">-</button>
+            <span>${item.quantity}</span>
+            <button onclick="increaseQuantity(${index})">+</button>
+          </div>
+          <span>$${item.price * item.quantity}</span>
+        `;
+        cartItemsContainer.appendChild(itemDiv);
+        totalPrice += item.price * item.quantity;
+      });
+
+      document.getElementById('cart-total').innerText = `Total: $${totalPrice}`;
+    }
+
+    // Increase Quantity
+    function increaseQuantity(index) {
+      cart[index].quantity++;
+      localStorage.setItem('cart', JSON.stringify(cart));
+      displayCart();
+      updateCartCount();
+    }
+
+    // Decrease Quantity
+    function decreaseQuantity(index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity--;
+      } else {
+        cart.splice(index, 1); // Remove item if quantity is 0
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      displayCart();
+      updateCartCount();
+    }
+
+    // Remove Item from Cart
+    function removeFromCart(productName) {
+      cart = cart.filter(item => item.productName !== productName);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      displayCart();
+      updateCartCount();
+    }
+
+    // Proceed to Checkout
+    function proceedToCheckout() {
+      const checkoutForm = document.getElementById('checkoutForm');
+      checkoutForm.style.display = 'block';
+    }
+
+    // Submit Order
+    function submitOrder(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const cardNumber = document.getElementById('cardNumber').value;
+      const expiration = document.getElementById('expiration').value;
+      const cvv = document.getElementById('cvv').value;
+      const address = document.getElementById('address').value;
+
+      console.log(`Order placed:
+        Email: ${email}
+        Card Number: ${cardNumber}
+        Expiration: ${expiration}
+        CVV: ${cvv}
+        Address: ${address}
+      `);
+
+      document.getElementById('checkoutForm').style.display = 'none';
+      document.getElementById('confirmationMessage').style.display = 'block';
+      cart = [];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    // Initialize Cart Count on Load
+    window.onload = function () {
+      updateCartCount();
+    };
+
+    // Redirect to Checkout
+    function redirectToCheckout() {
+      window.location.href = "checkout.html"; // Redirect to the new checkout page
+    }
+
+    function scrollToProducts() {
+      document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

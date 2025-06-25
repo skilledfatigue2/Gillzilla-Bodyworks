@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gillzilla Bodyworks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+    body {
+      background-color: #000;
+      color: #fff;
+    }
+    header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111;
+    }
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #ddd;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .hero {
+      background: url('https://images.pexels.com/photos/457882/pexels-photo-457882.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260') center/cover no-repeat;
+      padding: 120px 20px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+    .hero p {
+      font-size: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 40px;
+    }
+    .product-card {
+      background-color: #111;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .product-card img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+    .product-card p {
+      font-size: 16px;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 300px;
+      height: 100%;
+      background-color: #111;
+      padding: 30px;
+      overflow-y: auto;
+      transition: right 0.3s ease-in-out;
+      z-index: 1000;
+    }
+    .sidebar.active {
+      right: 0;
+    }
+    .sidebar h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+    .sidebar .ingredient {
+      margin-bottom: 20px;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      z-index: 900;
+    }
+    .overlay.active {
+      display: block;
+    }
+    .footer {
+      padding: 20px;
+      text-align: center;
+      background-color: #111;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay" onclick="closeSidebars()"></div>
+  <header>
+    <h2>Gillzilla Bodyworks</h2>
+    <nav>
+      <a href="#products">Shop</a>
+      <a href="#about">About</a>
+      <a onclick="toggleSidebar('ingredientSidebar')">Ingredients</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Elevate Your Crown</h1>
+    <p>Premium hair care products crafted to nourish, protect, and empower your natural beauty.</p>
+  </section>
+
+  <section id="products" class="product-grid">
+    <div class="product-card">
+      <img src="products/sea-salt-spray.png" alt="Sea Salt Spray">
+      <p>Sea Salt Spray - Adds volume and beachy texture with a light hold.</p>
+    </div>
+    <div class="product-card">
+      <img src="products/texture-powder.png" alt="Texture Powder">
+      <p>Texture Powder - Boosts volume and grip for easy styling.</p>
+    </div>
+    <div class="product-card">
+      <img src="products/tonic-spray.png" alt="Texture Tonic Spray">
+      <p>Texture Tonic Spray - Natural finish and flexible hold.</p>
+    </div>
+    <div class="product-card">
+      <img src="products/hair-clay.png" alt="Hair Clay">
+      <p>Hair Clay - Matte finish and strong hold for defined looks.</p>
+    </div>
+  </section>
+
+  <div id="ingredientSidebar" class="sidebar">
+    <h2>Our Ingredients</h2>
+    <div class="ingredient">
+      <p><strong>Sea Salt</strong> – Boosts texture and fights dandruff.</p>
+    </div>
+    <div class="ingredient">
+      <p><strong>Kaolin Clay</strong> – Adds hold and helps thicken hair.</p>
+    </div>
+    <div class="ingredient">
+      <p><strong>Glycerin</strong> – Moisturizes and keeps hair soft.</p>
+    </div>
+    <div class="ingredient">
+      <p><strong>Essential Oils</strong> – Adds a nice scent and keeps hair moisturized.</p>
+    </div>
+  </div>
+
+  <section id="about" style="padding: 50px 20px;">
+    <h2 style="text-align: center;">About Gillzilla Bodyworks</h2>
+    <p style="max-width: 700px; margin: 20px auto; text-align: center;">
+      Gillzilla Bodyworks was created to provide high-quality, natural-based hair care products that empower individuals to embrace their natural beauty with confidence. Each product is made with love, passion, and a deep understanding of hair care needs.
+    </p>
+  </section>
+
+  <section id="contact" style="padding: 50px 20px;">
+    <h2 style="text-align: center;">Contact Us</h2>
+    <p style="text-align: center; margin-top: 10px;">DM us at <strong>gillzillabodyworks@gmail.com</strong></p>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2025 Gillzilla Bodyworks. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleSidebar(id) {
+      document.getElementById(id).classList.add('active');
+      document.getElementById('overlay').classList.add('active');
+    }
+    function closeSidebars() {
+      document.getElementById('ingredientSidebar').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
