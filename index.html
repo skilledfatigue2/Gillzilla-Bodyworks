@@ -560,9 +560,12 @@
 
   <div class="overlay" id="overlay" onclick="closeCart()"></div>
 
-  <header>
-    <h2 onclick="window.location.href='index.html'">Gillzilla Bodyworks</h2>
+  <header style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; align-items: center;">
+      <h2 onclick="window.location.href='index.html'" style="margin: 0;">Gillzilla Bodyworks</h2>
+    </div>
     <nav>
+      <button id="toggleModeBtn" class="mode-toggle" style="margin-right: 10px; vertical-align: middle;">Dark Mode</button>
       <a href="javascript:void(0)" onclick="toggleAboutSidebar()" id="about-button">About</a>
       <a href="javascript:void(0)" onclick="toggleContactSidebar()" id="contact-button">Contact</a>
       <a href="javascript:void(0)" onclick="toggleIngredientsSidebar()" id="ingredients-button">Ingredients</a>
@@ -697,8 +700,6 @@
     <a href="javascript:void(0)" onclick="toggleContactSidebar()">Contact</a>
     <a href="privacy-policy.html">Privacy Policy</a>
   </footer>
-
-  <button id="toggleModeBtn" class="mode-toggle">Dark Mode</button>
 
   <script>
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
