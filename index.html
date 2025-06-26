@@ -455,6 +455,95 @@
     button:active {
       transform: scale(0.95); /* Slight shrink effect on click */
     }
+
+    /* Dark Mode Styles */
+    body.dark-mode {
+      background-color: #181818 !important;
+      color: #e0e0e0 !important;
+    }
+
+    body.dark-mode header,
+    body.dark-mode .hero,
+    body.dark-mode .product-card,
+    body.dark-mode .product-detail,
+    body.dark-mode .sidebar,
+    body.dark-mode .about-sidebar,
+    body.dark-mode .contact-sidebar,
+    body.dark-mode .ingredients-sidebar,
+    body.dark-mode .checkout-form,
+    body.dark-mode .confirmation-message {
+      background-color: #232323 !important;
+      color: #e0e0e0 !important;
+    }
+
+    body.dark-mode .product-card,
+    body.dark-mode .product-detail {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    body.dark-mode .combo-deals h3,
+    body.dark-mode .product-detail h2,
+    body.dark-mode .product-price {
+      color: #7fff7f !important;
+    }
+
+    body.dark-mode .add-to-cart,
+    body.dark-mode .checkout-button,
+    body.dark-mode .sidebar button,
+    body.dark-mode .about-sidebar button,
+    body.dark-mode .contact-sidebar button,
+    body.dark-mode .ingredients-sidebar button {
+      background-color: #333 !important;
+      color: #fff !important;
+    }
+
+    body.dark-mode .add-to-cart:hover,
+    body.dark-mode .checkout-button:hover,
+    body.dark-mode .sidebar button:hover,
+    body.dark-mode .about-sidebar button:hover,
+    body.dark-mode .contact-sidebar button:hover,
+    body.dark-mode .ingredients-sidebar button:hover {
+      background-color: #4CAF50 !important;
+      color: #fff !important;
+    }
+
+    body.dark-mode .arrow-btn {
+      background: #333 !important;
+      color: #fff !important;
+    }
+
+    body.dark-mode .arrow-btn:hover {
+      background: #4CAF50 !important;
+      color: #fff !important;
+    }
+
+    body.dark-mode .mode-toggle {
+      background: #fff !important;
+      color: #222 !important;
+    }
+
+    body.dark-mode .mode-toggle:hover {
+      background: #4CAF50 !important;
+      color: #fff !important;
+    }
+
+    /* Button to toggle dark mode */
+    .mode-toggle {
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-left: 20px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .mode-toggle:hover {
+      background: #4CAF50;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -598,6 +687,8 @@
     <a href="javascript:void(0)" onclick="toggleContactSidebar()">Contact</a>
     <a href="privacy-policy.html">Privacy Policy</a>
   </footer>
+
+  <button id="toggleModeBtn" class="mode-toggle">Dark Mode</button>
 
   <script>
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -779,6 +870,31 @@
     function scrollToProducts() {
       document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
     }
+
+    // Dark/Light Mode Toggle
+    document.addEventListener('DOMContentLoaded', function () {
+      const toggleBtn = document.getElementById('toggleModeBtn');
+      let darkMode = localStorage.getItem('darkMode') === 'true';
+      if (darkMode) {
+        document.body.classList.add('dark-mode');
+        toggleBtn.textContent = 'Light Mode';
+      }
+      toggleBtn.onclick = function () {
+        darkMode = !darkMode;
+        document.body.classList.toggle('dark-mode', darkMode);
+        toggleBtn.textContent = darkMode ? 'Light Mode' : 'Dark Mode';
+        localStorage.setItem('darkMode', darkMode);
+      };
+    });
+
+    // Check and apply saved mode preference on page load
+    window.addEventListener('load', () => {
+      const darkModePreference = localStorage.getItem('darkMode') === 'true';
+      if (darkModePreference) {
+        document.body.classList.add('dark-mode');
+        toggleModeBtn.innerText = 'Light Mode';
+      }
+    });
   </script>
 </body>
 </html>
