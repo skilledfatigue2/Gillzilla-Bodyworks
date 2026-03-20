@@ -1,189 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Texture Tonic Spray - Gillzilla Bodyworks</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-    body { background-color: #f4f4f4; color: #333; padding: 20px; }
-    header {
-      padding: 20px;
-      background-color: #111;
-      color: #fff;
-      text-align: center;
+    body {
+      background: linear-gradient(135deg, #181818 80%, #222 100%);
+      color: #e0e0e0;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      margin: 0;
     }
-    header h1 { margin: 0; font-size: 24px; }
     .product-detail {
-      max-width: 800px;
-      margin: 20px auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 480px;
+      margin: 60px auto;
+      background: rgba(34,34,34,0.95);
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+      padding: 40px 32px 32px 32px;
+      text-align: center;
     }
     .product-detail img {
-      width: 100%;
-      max-width: 300px; /* Limit the image width */
-      display: block;
-      margin: 0 auto 20px;
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      margin-bottom: 18px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.22);
     }
     .product-detail h2 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: #4CAF50;
-      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 16px;
+      color: #7fff7f;
     }
     .product-detail p {
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 20px;
-      text-align: center;
+      font-size: 1.1rem;
+      margin-bottom: 18px;
+      color: #e0e0e0;
     }
     .combo-deals {
-      margin-top: 20px;
+      margin-top: 24px;
+      text-align: left;
+      background: rgba(60,60,60,0.5);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
     }
     .combo-deals h3 {
-      font-size: 20px;
+      font-size: 1.3rem;
       margin-bottom: 10px;
-      color: #4CAF50;
+      color: #7fff7f;
     }
     .combo-deals ul {
-      list-style: none;
+      list-style-type: none;
       padding: 0;
+      margin: 0;
     }
-    .combo-deals ul li {
-      margin-bottom: 10px;
-      font-size: 16px;
+    .combo-deals li {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: #fff;
     }
     .add-to-cart {
-      display: block;
-      width: 100%;
-      max-width: 200px;
-      margin: 20px auto;
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      text-align: center;
+      margin-top: 18px;
+      padding: 12px 28px;
+      font-size: 1rem;
+      background: #4CAF50;
+      color: #fff;
       border: none;
-      border-radius: 5px;
-      font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      font-weight: 600;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
     .add-to-cart:hover {
-      background-color: #45a049;
+      background: #7fff7f;
+      color: #181818;
     }
-
-    /* Cart Sidebar Styles */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 300px;
-      height: 100%;
-      background-color: #111;
-      padding: 30px 20px 80px;
-      overflow-y: auto;
-      transition: right 0.3s ease-in-out;
-      z-index: 1000;
+    .back-btn {
+      margin-top: 24px;
+      background: #222;
       color: #fff;
-      font-family: 'Montserrat', sans-serif;
-    }
-    .sidebar.active {
-      right: 0;
-    }
-    .sidebar h2 {
-      margin-bottom: 20px;
-      font-size: 24px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 10px;
-      color: #fff;
-    }
-    .cart-item {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #fff;
-    }
-    .cart-item button {
-      background-color: transparent;
-      color: #fff;
-      border: 1px solid #fff;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 5px;
-      font-size: 14px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    .cart-item button:hover {
-      background-color: #4CAF50;
-      color: #fff;
-    }
-    .checkout-button {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
-      padding: 12px;
-      font-size: 16px;
-      background-color: #4CAF50;
-      color: white;
       border: none;
       border-radius: 5px;
+      padding: 8px 18px;
+      font-size: 15px;
       cursor: pointer;
-      text-align: center;
+      transition: background 0.2s, color 0.2s;
+      display: inline-block;
     }
-    .checkout-button:hover {
-      background-color: #45a049;
+    .back-btn:hover {
+      background: #4CAF50;
+      color: #181818;
+    }
+    .arrow-btn {
+      background: none;
+      border: none;
+      color: #7fff7f;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      margin: 0 8px;
+    }
+    .arrow-btn:hover {
+      color: #4CAF50;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Texture Tonic Spray</h1>
-  </header>
   <div class="product-detail">
-    <img src="images/tonic-spray.png" alt="Texture Tonic Spray">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+      <button class="arrow-btn" onclick="showPrevImage()" aria-label="Previous photo">&#8592;</button>
+      <img id="mainImage" src="images/tonic-spray.png" alt="Texture Tonic Spray" />
+      <button class="arrow-btn" onclick="showNextImage()" aria-label="Next photo">&#8594;</button>
+    </div>
     <h2>Texture Tonic Spray - $15</h2>
-    <p>Natural finish and flexible hold. Perfect for lightweight styling and a polished look.</p>
+    <p>Natural finish and flexible hold. Perfect for refreshing and styling your hair throughout the day.</p>
     <div class="combo-deals">
       <h3>Combo Deals</h3>
       <ul>
         <li>Texture Tonic Spray + Sea Salt Spray - $30</li>
-        <li>Texture Tonic Spray + Hair Clay - $35</li>
-        <li>Texture Tonic Spray + Conditioner - $35</li>
+        <li>Texture Tonic Spray + Texture Powder - $30</li>
       </ul>
     </div>
     <button class="add-to-cart" onclick="addToCart('Texture Tonic Spray', 15)">Add to Cart</button>
+    <br>
+    <button class="back-btn" onclick="window.location.href='index.html'">&larr; Back to Home</button>
   </div>
-
-  <!-- Cart Sidebar -->
-  <div id="cartSidebar" class="sidebar">
-    <button class="close-cart" onclick="closeCart()">X</button>
-    <h2>Your Cart</h2>
-    <div id="cart-items"></div>
-    <p id="cart-total">Total: $0</p>
-    <button class="checkout-button" onclick="redirectToCheckout()">Proceed to Checkout</button>
-  </div>
-
   <script>
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    function toggleCart() {
-      const cartSidebar = document.getElementById('cartSidebar');
-      cartSidebar.classList.toggle('active');
-      displayCart();
+    // Image slider logic for before/after
+    const images = [
+      "images/tonic-spray.png",
+      "images/tonic-spray-before.png",
+      "images/tonic-spray-after.png"
+    ];
+    let currentImage = 0;
+    function showPrevImage() {
+      currentImage = (currentImage - 1 + images.length) % images.length;
+      document.getElementById('mainImage').src = images[currentImage];
     }
-
-    function closeCart() {
-      const cartSidebar = document.getElementById('cartSidebar');
-      cartSidebar.classList.remove('active');
+    function showNextImage() {
+      currentImage = (currentImage + 1) % images.length;
+      document.getElementById('mainImage').src = images[currentImage];
     }
-
     function addToCart(productName, price) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
       const productIndex = cart.findIndex(item => item.productName === productName);
       if (productIndex !== -1) {
         cart[productIndex].quantity++;
@@ -191,41 +155,8 @@
         cart.push({ productName, price, quantity: 1 });
       }
       localStorage.setItem('cart', JSON.stringify(cart));
-      updateCartCount();
-      alert(`${productName} has been added to your cart!`);
+      alert(productName + " added to cart!");
     }
-
-    function updateCartCount() {
-      const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-      document.getElementById('cart-count').innerText = totalItems;
-    }
-
-    function displayCart() {
-      const cartItemsContainer = document.getElementById('cart-items');
-      cartItemsContainer.innerHTML = '';
-      let totalPrice = 0;
-
-      cart.forEach((item, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.classList.add('cart-item');
-        itemDiv.innerHTML = `
-          <span>${item.productName}</span>
-          <span>${item.quantity} x $${item.price}</span>
-        `;
-        cartItemsContainer.appendChild(itemDiv);
-        totalPrice += item.price * item.quantity;
-      });
-
-      document.getElementById('cart-total').innerText = `Total: $${totalPrice}`;
-    }
-
-    function redirectToCheckout() {
-      window.location.href = "checkout.html";
-    }
-
-    window.onload = function () {
-      updateCartCount();
-    };
   </script>
 </body>
 </html>
